@@ -44,8 +44,8 @@ async def send_content(update, context):
     ]
 
     images = [
-        'http://mar.vergoboy.ir/photo1.jpg',
-        'http://mar.vergoboy.ir/photo2.jpg',
+        'https://raw.githubusercontent.com/vergoboy/noHelloTelegramBot/refs/heads/main/photo1.jpg',
+        'https://raw.githubusercontent.com/vergoboy/noHelloTelegramBot/refs/heads/main/photo2.jpg',
     ]
 
     for message in messages:
