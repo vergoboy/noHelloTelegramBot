@@ -1,6 +1,5 @@
-from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
-from telegram import Application
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import Application, CommandHandler, InlineQueryHandler
 
 BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE'
 
@@ -21,8 +20,8 @@ def inlinequery(update, context):
 
     update.inline_query.answer([result])
 
-def send_content(update, context):
-    chat_id = update.message.chat_id
+async def send_content(update, context):
+    chat_id = update.effective_chat.id
     
     messages = [
         "پیام اول: سلام دوست عزیز! 😊",
@@ -36,24 +35,19 @@ def send_content(update, context):
     ]
 
     for message in messages:
-        context.bot.send_message(chat_id=chat_id, text=message)
+        await context.bot.send_message(chat_id=chat_id, text=message)
     
     for image_url in images:
-        context.bot.send_photo(chat_id=chat_id, photo=image_url)
+        await context.bot.send_photo(chat_id=chat_id, photo=image_url)
 
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
 
-    dp = updater.dispatcher
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(InlineQueryHandler(inlinequery))
+    application.add_handler(CommandHandler("send_content", send_content))
 
-    dp.add_handler(CommandHandler("start", start))
-    
-    dp.add_handler(InlineQueryHandler(inlinequery))
-    
-    dp.add_handler(CommandHandler("send_content", send_content))
-
-    updater.start_polling()
-    updater.idle()
+    application.run_polling()
 
 if __name__ == '__main__':
     main()
