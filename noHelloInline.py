@@ -1,5 +1,6 @@
 from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler
+from telegram import Application
 
 BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE'
 
@@ -41,7 +42,8 @@ def send_content(update, context):
         context.bot.send_photo(chat_id=chat_id, photo=image_url)
 
 def main():
-    updater = Updater(BOT_TOKEN, use_context=True)
+    application = Application.builder().token(BOT_TOKEN).build()
+
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
